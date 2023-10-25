@@ -10,16 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_20_172510) do
-  create_table "lineitems", force: :cascade do |t|
+ActiveRecord::Schema[7.1].define(version: 2023_10_25_164429) do
+  create_table "line_items", force: :cascade do |t|
     t.integer "cant_prod"
+    t.integer "order_id", null: false
+    t.integer "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_line_items_on_order_id"
+    t.index ["product_id"], name: "index_line_items_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
     t.string "client"
-    t.datetime "complete_date"
+    t.datetime "order_date"
     t.decimal "total_price"
     t.string "state"
     t.datetime "created_at", null: false
@@ -35,4 +39,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_20_172510) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "line_items", "orders"
+  add_foreign_key "line_items", "products"
 end
